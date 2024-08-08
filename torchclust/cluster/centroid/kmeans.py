@@ -3,7 +3,15 @@ from torch.nn import functional as F
 
 
 class KMeansBase:
-    def __init__(self, num_clusters, seed=42, distance="euclidean", device="cpu", max_iter=300, tol=1e-4):
+    def __init__(
+        self,
+        num_clusters,
+        seed=42,
+        distance="euclidean",
+        device="cpu",
+        max_iter=300,
+        tol=1e-4,
+    ):
         self.num_clusters = num_clusters
         self.seed = seed
         self.distance = distance
@@ -11,9 +19,18 @@ class KMeansBase:
         self.max_iter = max_iter
         self.tol = tol
 
-        assert distance.lower() in ["euclidean", "cosine"], "`distance` must be one of \"euclidean\", \"cosine\""
+        assert distance.lower() in [
+            "euclidean",
+            "cosine",
+        ], '`distance` must be one of "euclidean", "cosine"'
 
-        self._distance_metric = torch._euclidean_dist if distance == "euclidean" else lambda x1, x2: torch.vmap(lambda x: 1-F.cosine_similarity(x1, x))(x2).T
+        self._distance_metric = (
+            torch._euclidean_dist
+            if distance == "euclidean"
+            else lambda x1, x2: torch.vmap(lambda x: 1 - F.cosine_similarity(x1, x))(
+                x2
+            ).T
+        )
         self._seed()
 
         self.parameters = {"centroids": None}
@@ -23,14 +40,14 @@ class KMeansBase:
 
     def _initialise_centroids(self, x):
         num_samples = x.shape[0]
-        indices = torch.randperm(num_samples)[:self.num_clusters]
+        indices = torch.randperm(num_samples)[: self.num_clusters]
         centroids = x[indices]
 
         return centroids
 
     def _update_centroids(self, centroids, x, closest_clusters):
         raise NotImplementedError()
-    
+
     @torch.no_grad()
     def fit(self, x):
         x = x.float().to(self.device)
@@ -44,7 +61,7 @@ class KMeansBase:
 
             centroids = self._update_centroids(centroids, x, closest_clusters)
 
-            if torch.sqrt((centroids_old - centroids)**2).mean() < self.tol:
+            if torch.sqrt((centroids_old - centroids) ** 2).mean() < self.tol:
                 break
 
             centroids_old = centroids.clone()
@@ -60,8 +77,10 @@ class KMeansBase:
             labels = distances.argmin(-1)
 
             return labels
-        
-        raise RuntimeError("`.fit()` must be called before calling `.predict()`. You could try `.fit_predict()`")
+
+        raise RuntimeError(
+            "`.fit()` must be called before calling `.predict()`. You could try `.fit_predict()`"
+        )
 
     @torch.no_grad()
     def fit_predict(self, x):
@@ -81,8 +100,8 @@ class KMeans(KMeansBase):
             centroids[k] = x[closest_clusters == k].mean(axis=0)
 
         return centroids
-    
-    
+
+
 class KMedians(KMeansBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
