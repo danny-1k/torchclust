@@ -78,7 +78,9 @@ class DBSCAN:
                 closest_cluster = distances[neigbours_clusters_assigned].argmin()
                 labels[index] = neighbours_labels[closest_cluster]
 
-                labels[neigbours_clusters_unassigned] = labels[index]
+                labels[neigbours_clusters_unassigned] = neighbours_labels[
+                    closest_cluster
+                ]
 
             elif neighbours.shape[0] >= self.min_samples:
                 current_cluster_label += 1
