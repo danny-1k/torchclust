@@ -7,16 +7,19 @@ from torchclust import centroid
 
 
 class TestCentroidBasedAlgorithms(unittest.TestCase):
+    def setUp(self):
+        self.x, self.labels = make_blobs(1000, n_features=3, centers=3)
+        self.x = torch.from_numpy(self.x)
+        self.labels = torch.from_numpy(self.labels)
+
     def test_kmeans(self):
-        x = torch.randn(1000, 3)
-        kmeans = centroid.KMeans(num_clusters=5)
-        labels = kmeans.fit_predict(x)
+        kmeans = centroid.KMeans(num_clusters=3)
+        labels = kmeans.fit_predict(self.x)
 
-        self.assertEqual(labels.shape[0], x.shape[0])
+        self.assertEqual(labels.shape[0], self.x.shape[0])
 
-    def test_kmeans_clustering(self):
-        x, labels = make_blobs(1000, n_features=3, centers=3)
-        dbscan = centroid.KMeans(num_clusters=3)
-        labels_ = dbscan.fit_predict(torch.from_numpy(x))
+    def test_meanshift(self):
+        meanshift = centroid.MeanShift(band_width=2)
+        labels = meanshift.fit_predict(self.x)
 
-        self.assertEqual(labels.shape[0], labels_.shape[0])
+        self.assertEqual(labels.shape[0], self.x.shape[0])
