@@ -5,13 +5,28 @@ from torch.nn import functional as F
 class KMeansBase:
     def __init__(
         self,
-        num_clusters,
-        seed=42,
-        distance="euclidean",
-        device="cpu",
-        max_iter=300,
-        tol=1e-4,
+        num_clusters: int,
+        seed: int = 42,
+        distance: str = "euclidean",
+        device: str = "cpu",
+        max_iter: int = 300,
+        tol: float = 1e-4,
     ):
+        """Implements the KMeans algorithm.
+
+        Start algorithm by choosing k centroids at random.
+        Assign cluster labels to each point by the closest point to the k centroids.
+        Adjust estimate for centroid centers by taking mean of each cluster.
+        Iterate until convergence (difference between two consecutive updates < `tol`).
+
+        Args:
+            num_clusters (int): Number of clusters to cluster into.
+            seed (int, optional): Random Seed for reproducibility. Defaults to 42.
+            distance (str, optional): Distance metric. Can be one of ["euclidean", "cosine"]. Defaults to "euclidean".
+            device (str, optional): Device to run clustering on. Defaults to "cpu". Defaults to "cpu".
+            max_iter (int, optional): Maximum number of iterations. Defaults to 300.
+            tol (float, optional): Mininum difference between centroid updates. Defaults to 1e-4.
+        """
         self.num_clusters = num_clusters
         self.seed = seed
         self.distance = distance
@@ -104,6 +119,10 @@ class KMeans(KMeansBase):
 
 class KMedians(KMeansBase):
     def __init__(self, *args, **kwargs):
+        """Implements KMedians.
+
+        Variant of KMeans where the median of the clusters are taken as the centroid estimates as opposed to the mean
+        """
         super().__init__(*args, **kwargs)
 
     def _update_centroids(self, centroids, x, closest_clusters):
