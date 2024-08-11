@@ -59,6 +59,7 @@ class MeanShift:
             torch.round(centroids, decimals=3), dim=0
         )
 
+    @torch.no_grad()
     def predict(self, x):
         x = x.float().to(self.device)
 
@@ -72,6 +73,7 @@ class MeanShift:
             "`.fit()` must be called before calling `.predict()`. You could try `.fit_predict()`"
         )
 
+    @torch.no_grad()
     def fit_predict(self, x):
         self.fit(x)
         labels = self.predict(x)

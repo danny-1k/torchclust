@@ -86,6 +86,7 @@ class GaussianMixtureModel:
             x_centered = x - self.parameters["mu"][k]
             sigma[k] = ((gamma[:, k] * x_centered.T) @ x_centered) / gamma_sum[k]
 
+    @torch.no_grad()
     def fit(self, x):
         x = x.float().to(self.device)
 
@@ -109,11 +110,13 @@ class GaussianMixtureModel:
 
             logs_over_time.append(log_likelihood)
 
+    @torch.no_grad()
     def fit_predict(self, x):
         self.fit(x)
         labels = self.predict(x)
         return labels
 
+    @torch.no_grad()
     def predict(self, x):
         responsibilities = self._e_step(x)
         return responsibilities.argmax(axis=1)
