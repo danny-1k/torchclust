@@ -21,6 +21,8 @@ Torchclust features implementations of common clustering algorithms with a sciki
         - Interia
         - Calinski-Harabasz Score / Variance Ratio Criterion
     - External
+        - Purity Score
+        - Rand Index
         - Adjusted Rand Index
         - Mutual Information
         - Normalised Mutual Information
@@ -46,12 +48,12 @@ pip install torchclust
 #### Kmeans on sklearn make_blobs
 ```python
 import torch
-from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
+from torchclust.utils.datasets import make_blobs
 from torchclust.centroid import KMeans
 
-x, _ = make_blobs(1000, n_features=3, centers=3)
+x, _ = make_blobs(1000, num_features=2, centers=3)
 x = torch.from_numpy(x)
 
 kmeans = KMeans(num_clusters=3)
