@@ -1,15 +1,15 @@
 import unittest
 import torch
-from sklearn.datasets import make_blobs
+from torchclust.utils.datasets import make_blobs
 
 from torchclust import density
 
 
 class TestDensityBasedAlgorithms(unittest.TestCase):
     def setUp(self):
-        self.x, self.labels = make_blobs(1000, n_features=3, centers=3)
-        self.x = torch.from_numpy(self.x)
-        self.labels = torch.from_numpy(self.labels)
+        self.x, self.labels = make_blobs(
+            1000, num_features=3, num_centers=3, random_state=42
+        )
 
     def test_dbscan(self):
         dbscan = density.DBSCAN(min_samples=10, eps=0.1)
