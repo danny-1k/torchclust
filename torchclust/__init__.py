@@ -1,12 +1,14 @@
 from .cluster import deep
 from .cluster import density
 from .cluster import centroid
-from .cluster import hierarchical
+from .utils import utils
+from .utils import datasets
 
 
 __all__ = [
     "deep",
     "density",
     "centroid",
-    "hierarchical",
+    "datasets",
+    "utils"
 ]
