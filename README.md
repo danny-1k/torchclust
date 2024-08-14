@@ -38,14 +38,14 @@ Contributions can be made in various forms:
 
 ## Installation
 
-*Be sure to make to make sure the GPU version of pytorch is installed if you intend to run the algorithms on GPU.*
+*Be sure the GPU version of pytorch is installed if you intend to run the algorithms on GPU.*
 
 ```bash
 pip install torchclust
 ```
 ## Usage
 
-#### Kmeans on sklearn make_blobs
+#### Kmeans on gaussian blobs
 ```python
 import torch
 import matplotlib.pyplot as plt
