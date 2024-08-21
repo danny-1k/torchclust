@@ -28,10 +28,18 @@ class TestExternalMetrics(unittest.TestCase):
         labels = torch.Tensor([0, 0, 1]).long()
         centroids = torch.Tensor([[0.5, 1], [3, 4]])
 
-        self.assertAlmostEqual(round(metrics.silhouette_score(x, labels, centroids), 4), 0.9145)
+        self.assertAlmostEqual(
+            round(metrics.silhouette_score(x, labels, centroids), 4), 0.9145
+        )
 
     def test_calinski_harabasz_index(self):
-        pass
+        x = torch.Tensor([[0, 1], [1, 1], [3, 4]])
+        labels = torch.Tensor([0, 0, 1]).long()
+        centroids = torch.Tensor([[0.5, 1], [3, 4]])
+
+        self.assertAlmostEqual(
+            round(metrics.calinski_harabasz_index(x, labels, centroids), 4), 20.3333
+        )
 
     def test_davis_bouldin_index(self):
         x = torch.Tensor([[0, 1], [1, 1], [3, 4]])
