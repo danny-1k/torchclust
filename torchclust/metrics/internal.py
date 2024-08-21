@@ -64,18 +64,9 @@ def inertia(x: torch.Tensor, labels: torch.Tensor, centroids: torch.Tensor):
 
     labels = labels.long()
 
-    wcss = 0
+    wcss = torch.sum((x - centroids[labels]) ** 2)
 
-    K = labels.max() + 1
-
-    for k in range(K):
-        wcss += (
-            torch._euclidean_dist(x[labels == k], centroids[k].unsqueeze(0))
-            .sum()
-            .item()
-        )
-
-    return wcss
+    return wcss.item()
 
 
 def davies_bouldin_index(
@@ -128,5 +119,7 @@ def davies_bouldin_index(
     return dbi
 
 
-def calinski_harabasz_index(labels_true: torch.Tensor, labels_pred: torch.Tensor):
+def calinski_harabasz_index(
+    x: torch.Tensor, labels: torch.Tensor, centroids: torch.Tensor
+):
     pass
