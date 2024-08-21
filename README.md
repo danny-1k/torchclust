@@ -1,6 +1,7 @@
 ![](./assets/logo.png)
 
 # Torchclust: Clustering Algorithms written with Pytorch for running on GPU
+![License](https://img.shields.io/github/license/hmunachi/nanodl?style=flat-square) [![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/daniel-ik-human) [![Twitter](https://img.shields.io/twitter/follow/1sn00s?style=social)](https://twitter.com/1sn00s)
 
 Torchclust was developed to solve the issue of having to convert Pytorch Tensors to Numpy arrays and moving them to the CPU from the GPU in order to utilise frameworks such as scikit-learn.
 
