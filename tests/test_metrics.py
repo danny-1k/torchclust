@@ -3,6 +3,7 @@ import torch
 
 
 from torchclust import metrics
+from torchclust.cluster.centroid import KMeans
 
 
 class TestExternalMetrics(unittest.TestCase):
@@ -21,3 +22,22 @@ class TestExternalMetrics(unittest.TestCase):
     def test_purity_score(self):
         purity = metrics.purity_score(self.labels, self.pred)
         self.assertAlmostEqual(round(purity, 4), 0.5000)
+
+    def test_silhouette_score(self):
+        x = torch.Tensor([[0, 1], [1, 1], [3, 4]])
+        labels = torch.Tensor([0, 0, 1]).long()
+        centroids = torch.Tensor([[0.5, 1], [3, 4]])
+
+        self.assertAlmostEqual(round(metrics.silhouette_score(x, labels, centroids), 4), 0.9145)
+
+    def test_calinski_harabasz_index(self):
+        pass
+
+    def test_davis_bouldin_index(self):
+        x = torch.Tensor([[0, 1], [1, 1], [3, 4]])
+        labels = torch.Tensor([0, 0, 1]).long()
+        centroids = torch.Tensor([[0.5, 1], [3, 4]])
+
+        self.assertAlmostEqual(
+            round(metrics.davies_bouldin_index(x, labels, centroids), 4), 0.1280
+        )
