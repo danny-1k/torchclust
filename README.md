@@ -19,6 +19,7 @@ Torchclust features implementations of common clustering algorithms with a sciki
     - Internal
         - Silhouette Score
         - Interia
+        - Davies-Bouldin Index 
         - Calinski-Harabasz Score / Variance Ratio Criterion
     - External
         - Purity Score
