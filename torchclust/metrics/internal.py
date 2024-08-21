@@ -119,7 +119,39 @@ def davies_bouldin_index(
     return dbi
 
 
+def between_cluster_sum_of_squares(
+    x: torch.Tensor, labels: torch.Tensor, centroids: torch.Tensor
+):
+    """Computes the Weighted sum of squared Euclidean distances between each cluster centroid and the mean of the dataset.
+
+    Args:
+        x (torch.Tensor): Data points.
+        labels (torch.Tensor): Cluster label for each point.
+        centroids (torch.Tensor): Clustering centroids.
+    """
+    labels = labels.long()
+
+    k = labels.max() + 1
+    N = (labels == torch.arange(k).unsqueeze(1)).sum(axis=1)
+    C = x.mean(axis=0)
+
+    bcss = torch.sum(torch.sum((centroids - C) ** 2, axis=1) * N)
+
+    return bcss.item()
+
+
 def calinski_harabasz_index(
     x: torch.Tensor, labels: torch.Tensor, centroids: torch.Tensor
 ):
-    pass
+
+    labels = labels.long()
+
+    k = labels.max() + 1
+    n = x.shape[0]
+
+    wcss = inertia(x, labels, centroids)
+    bcss = between_cluster_sum_of_squares(x, labels, centroids)
+
+    chi = (bcss / (k - 1)) / (wcss / (n - k))
+
+    return chi.item()
