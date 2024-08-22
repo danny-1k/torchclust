@@ -3,7 +3,6 @@ import torch
 
 
 from torchclust import metrics
-from torchclust.cluster.centroid import KMeans
 
 
 class TestExternalMetrics(unittest.TestCase):

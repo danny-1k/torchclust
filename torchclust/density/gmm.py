@@ -1,5 +1,5 @@
 import torch
-from torchclust.cluster.centroid import KMeans
+from torchclust.centroid import KMeans
 
 
 class GaussianMixtureModel:

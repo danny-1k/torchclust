@@ -1,14 +1,5 @@
-from .cluster import deep
-from .cluster import density
-from .cluster import centroid
-from .utils import utils
-from .utils import datasets
+from . import centroid, deep, density
+from .utils import *
 
 
-__all__ = [
-    "deep",
-    "density",
-    "centroid",
-    "datasets",
-    "utils"
-]
+__all__ = ["deep", "density", "centroid", "datasets", "utils"]
