@@ -56,7 +56,6 @@ from torchclust.utils.datasets import make_blobs
 from torchclust.centroid import KMeans
 
 x, _ = make_blobs(1000, num_features=2, centers=3)
-x = torch.from_numpy(x)
 
 kmeans = KMeans(num_clusters=3)
 labels = kmeans.fit_predict(x)
