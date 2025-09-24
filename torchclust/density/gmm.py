@@ -100,6 +100,20 @@ class GaussianMixtureModel:
             self._m_step(x, responsibilities)
             log_likelihood_new = responsibilities.sum()
 
+            if torch.isnan(log_likelihood_new):
+                # reinstantiate
+
+                self.__init__(
+                    num_clusters=self.num_clusters,
+                    initialise=self.initialise,
+                    seed=self.seed,
+                    device=self.device,
+                    max_iter=self.max_iter,
+                    tol=self.tol
+                )
+
+                self._initialise_parameters(x)
+
             if (
                 iter > 0
                 and torch.sqrt((log_likelihood - log_likelihood_new) ** 2) < self.tol
